@@ -29,11 +29,17 @@ export default {
     lightning: {
       type: Boolean,
       default: false
-    }
+    },
+    sound: String
   },
   methods: {
+    playSound () {
+      const audio = new Audio(this.sound)
+      audio.play()
+    },
     lighting () {
       this.isLightningForClick = true
+      this.playSound()
     },
     returnColor () {
       this.isLightningForClick = false
@@ -44,6 +50,11 @@ export default {
       return {
         'background-color': this.isLightning || this.isLightningForClick ? this.lightColor : this.standardColor
       }
+    }
+  },
+  watch: {
+    lightning (newVal) {
+      if (newVal) this.playSound()
     }
   }
 }

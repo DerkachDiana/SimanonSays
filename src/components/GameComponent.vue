@@ -1,19 +1,22 @@
 <template>
   <div class="column">
     <div class="row">
-      <game-button id="one" @click="theGame('one')" light-color="#44836b" standard-color="aquamarine" :lightning="buttonsHighlight.one"/>
-      <game-button id="two" @click="theGame('two')" light-color="#764e9b" standard-color="#c17fff" :lightning="buttonsHighlight.two"/>
+      <game-button id="one" :sound="sound_1" @click="theGame('one')" light-color="#44836b" standard-color="aquamarine" :lightning="buttonsHighlight.one"/>
+      <game-button id="two" :sound="sound_2" @click="theGame('two')" light-color="#764e9b" standard-color="#c17fff" :lightning="buttonsHighlight.two"/>
     </div>
     <div class="row">
-      <game-button id="three" @click="theGame('three')" light-color="#9b8f4e" standard-color="#ffea7f" :lightning="buttonsHighlight.three"/>
-      <game-button id="four" @click="theGame('four')" light-color="#ad5658" standard-color="#ff7f83" :lightning="buttonsHighlight.four"/>
+      <game-button id="three" :sound="sound_3" @click="theGame('three')" light-color="#9b8f4e" standard-color="#ffea7f" :lightning="buttonsHighlight.three"/>
+      <game-button id="four"  :sound="sound_4" @click="theGame('four')" light-color="#ad5658" standard-color="#ff7f83" :lightning="buttonsHighlight.four"/>
     </div>
   </div>
 </template>
 
 <script>
+import sound1 from '../sounds/sounds_1.mp3'
+import sound2 from '../sounds/sounds_2.mp3'
+import sound3 from '../sounds/sounds_3.mp3'
+import sound4 from '../sounds/sounds_4.mp3'
 import GameButton from './GameButton'
-
 const set = ['one', 'two', 'three', 'four']
 
 export default {
@@ -28,6 +31,10 @@ export default {
         three: false,
         four: false
       },
+      sound_1: sound1,
+      sound_2: sound2,
+      sound_3: sound3,
+      sound_4: sound4,
       myexpect: [],
       myTrigger: false,
       clickedButton: '',
@@ -42,24 +49,8 @@ export default {
     gameHardRound (timer) {
       this.addElement()
       this.myexpect.forEach((item) => {
-        switch (item) {
-          case 'one':
-            setTimeout(() => { this.buttonsHighlight.one = true }, timer = timer + 400)
-            setTimeout(() => { this.buttonsHighlight.one = false }, timer = timer + 400)
-            break
-          case 'two':
-            setTimeout(() => { this.buttonsHighlight.two = true }, timer = timer + 400)
-            setTimeout(() => { this.buttonsHighlight.two = false }, timer = timer + 400)
-            break
-          case 'three':
-            setTimeout(() => { this.buttonsHighlight.three = true }, timer = timer + 400)
-            setTimeout(() => { this.buttonsHighlight.three = false }, timer = timer + 400)
-            break
-          case 'four':
-            setTimeout(() => { this.buttonsHighlight.four = true }, timer = timer + 400)
-            setTimeout(() => { this.buttonsHighlight.four = false }, timer = timer + 400)
-            break
-        }
+        setTimeout(() => { this.buttonsHighlight[item] = true }, timer = timer + 400)
+        setTimeout(() => { this.buttonsHighlight[item] = false }, timer = timer + 400)
       })
     },
     addElement () {
@@ -73,8 +64,7 @@ export default {
           // блокируем кнопки
           this.gameHardRound(0)
           this.$emit('notifyResult', this.score)
-        }
-        this.counter = this.counter + 1
+        } else this.counter = this.counter + 1
       } else {
         this.score = 0
         this.counter = 0
