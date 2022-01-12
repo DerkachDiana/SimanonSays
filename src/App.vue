@@ -1,7 +1,7 @@
 <template>
   <div class="mycolumn">
     <GameComponent :trigger="trigger" @notifyResult="this.score = $event"/>
-    <StartButtonComponent @turnTrigger="this.newGame"/>
+    <StartButtonComponent @turnTrigger="this.trigger=$event && this.newGame"/>
     <div class="score">{{this.score}}</div>
   </div>
 </template>

@@ -75,6 +75,10 @@ export default {
   },
   watch: {
     trigger: function () {
+      this.score = 0
+      this.$emit('notifyResult', this.score)
+      this.counter = 0
+      this.myexpect = []
       this.gameHardRound(0)
     }
   }
